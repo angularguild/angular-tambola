@@ -1,0 +1,14 @@
+
+<div class="row">
+  <div class="col-xl-6 nxtNumber">
+    <button id="btnGetNxtNum" class="btn btn-success btn-xl btn-next-number" (click)="popNextNumber()"
+    [disabled]="isDisabled">Roll It !</button>
+  </div>
+  <div class="col-xl-6 nxtNumber">
+    <ng2-odometer [ngClass]="{'blinking':blinkText,'dd':!blinkText}" [number]="nextNum" [config]="config"></ng2-odometer>
+  </div>
+  </div>
+<fireworks *ngIf="this.blinkText"></fireworks>
+<div>{{check()}}</div>
+			
+  

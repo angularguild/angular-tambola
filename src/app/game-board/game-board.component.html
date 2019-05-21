@@ -1,0 +1,8 @@
+<table width="50%" border="1">
+  <tr *ngFor="let row of 9|times;let i = index" >
+    <td  *ngFor="let col of 10|times;let j = index">
+  <app-block [block]="getBlock((i*10)+j)"></app-block>
+    </td>
+  </tr>
+</table>
+<div>{{check()}}</div>

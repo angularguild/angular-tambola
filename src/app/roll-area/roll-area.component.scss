@@ -1,0 +1,23 @@
+
+.btn-next-number{
+    font-size: 50px;
+    width: 50%;
+    height: 50%;
+    font-weight: bold;
+}
+
+.nxtNumber{
+  left:40px;
+  width:50%;
+	text-align: center;
+  font-size: 200px;
+  font-weight: bold;
+  text-shadow: 2px 2px #993333;
+}
+.blinking{
+	animation:blinkingText 1.3s 3;
+}
+@keyframes blinkingText{
+	50%{		color: #993333;	text-shadow: 4px 4px #000;}
+	100%{	color: #000;	}
+}

@@ -1,0 +1,8 @@
+<div class="row" *ngFor="let row of columns|times;let i = index">
+	<div class="btn-group">
+		<ng-container *ngFor="let col of 2|times;let j = index">
+			<prize [prize]="prizes[(i*2)+j]"></prize>
+		</ng-container>
+	</div>
+</div>
+<div>{{check()}}</div>
