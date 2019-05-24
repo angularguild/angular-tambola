@@ -19,6 +19,16 @@ export class PrizeComponent {
       this.prize.isClaimed = !this.prize.isClaimed;
     }
     this.claimed.emit(this.prize);
+    let tempPrizeState = JSON.parse(localStorage.getItem("prizeState"));
+    for (let i = 0; i < tempPrizeState.length; i++)
+    {
+      if (tempPrizeState[i].label === this.prize.label)
+      {
+        tempPrizeState[i].isClaimed = this.prize.isClaimed;
+        localStorage.setItem("prizeState", JSON.stringify(tempPrizeState));
+        break;
+      }
+    }
   }
 
   get btnClass() {
