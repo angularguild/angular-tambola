@@ -4,6 +4,7 @@
     width: 50%;
     height: 50%;
     font-weight: bold;
+    margin:5px;
 }
 
 .nxtNumber{
@@ -17,6 +18,7 @@
 .blinking{
 	animation:blinkingText 1.3s 3;
 }
+
 @keyframes blinkingText{
 	50%{		color: #993333;	text-shadow: 4px 4px #000;}
 	100%{	color: #000;	}
