@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter,ChangeDetectionStrategy } from '@angular/core'
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core'
 import { Prize } from './prize';
+import { GameState } from '../../game-state';
 
 @Component({
   selector: 'prize',
@@ -19,6 +20,9 @@ export class PrizeComponent {
       this.prize.isClaimed = !this.prize.isClaimed;
     }
     this.claimed.emit(this.prize);
+
+    const gameState = new GameState();
+    gameState.updatePrize(this.prize);
   }
 
   get btnClass() {

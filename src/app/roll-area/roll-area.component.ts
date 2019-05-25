@@ -1,55 +1,65 @@
-import { Component,Input,ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { GameService } from '../game.service';
-import { Subject} from 'rxjs'
+import { Subject } from 'rxjs'
 import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-roll-area',
   templateUrl: './roll-area.component.html',
-  styleUrls: [ './roll-area.component.scss' ],
+  styleUrls: ['./roll-area.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RollAreaComponent  {
+export class RollAreaComponent {
 
   nextNum = 0;
   blinkText = false;
-  config = {animation: 'count',duration: 3000 };
+  config = { animation: 'count', duration: 3000 };
   stopFireWork = new Subject();
   igniteFireWork = new Subject();
   isDisabled = false;
+  isResetEnabled: boolean;
 
-  get delayTime(){
+  get delayTime() {
     return this.gameService.delayTime;
   }
-  
-  constructor(private gameService: GameService,private cdr:ChangeDetectorRef){
+
+  constructor(private gameService: GameService, private cdr: ChangeDetectorRef) {
     this.config.duration = this.delayTime;
-    this.gameService.nextNumber.subscribe((num)=>{
-        this.nextNum = 0;
-        this.cdr.detectChanges();
-        this.nextNum = num;
-         this.cdr.detectChanges();
-        this.igniteFireWork.next();
+    this.gameService.nextNumber.subscribe((num) => {
+      this.nextNum = 0;
+      this.cdr.detectChanges();
+      this.nextNum = num;
+      this.cdr.detectChanges();
+      this.igniteFireWork.next();
     })
-    this.igniteFireWork.asObservable().pipe(delay(this.delayTime)).subscribe(()=>{
+    this.igniteFireWork.asObservable().pipe(delay(this.delayTime)).subscribe(() => {
       this.blinkText = true;
       this.cdr.detectChanges();
       this.stopFireWork.next();
     })
-    this.stopFireWork.asObservable().pipe(delay(this.delayTime)).subscribe(()=>{
+    this.stopFireWork.asObservable().pipe(delay(this.delayTime)).subscribe(() => {
       this.blinkText = false;
       this.isDisabled = false;
       this.cdr.detectChanges();
     })
+
+    this.isResetEnabled = this.gameService.isGameInterupted();
+    this.nextNum = this.isResetEnabled ? this.gameService.lastSelectedNumber : 0;
   }
 
   popNextNumber() {
     this.isDisabled = true;
+    this.isResetEnabled = false;
     this.gameService.roll();
   }
 
-  check(){
+  check() {
     // to demo change changeDetection
     //console.log("roll-area");
+  }
+
+  reset() {
+    this.gameService.resetGame();
+    this.isResetEnabled = false;
   }
 }
