@@ -19,6 +19,28 @@ delayTime = 4000;
 constructor(){
   this.initializeBoard();
   this.initializePrizes();
+
+  // getting values from stored session data
+  if (sessionStorage.getItem("board-state")) {
+    if (confirm("Do you want to load previously saved data?")){
+      for (var i=0; i<this._prizeState.length; i++){
+        var storedIsClaimed = JSON.parse(sessionStorage.getItem(this._prizeState[i].label.toString()));
+        if (storedIsClaimed) {
+          this._prizeState[i].isClaimed = storedIsClaimed;
+        }
+      }
+      var storedBoardState = JSON.parse(sessionStorage.getItem("board-state"))
+      if (storedBoardState) {
+        for (var i=0; i < storedBoardState.length; i++){
+          this._boardState[i].isSelected = storedBoardState[i].isSelected
+        }
+      }
+    
+    } else {
+      sessionStorage.clear();
+    }
+  }
+  
   this._gameState =  new GameState(this._boardState,this._prizeState);
   this._randomNumbers = this.randomizedNumbers();
   this.boardState$ = new BehaviorSubject(this._gameState.boardState);  
@@ -51,6 +73,8 @@ return this._randomNumbers.pop();
 selectPoppedNumber(num){
   let index = this._boardState.findIndex((e)=>e.value === num);
   this._boardState[index] = {...this._boardState[index],isSelected: true};
+
+  sessionStorage.setItem("board-state", JSON.stringify(this._boardState))
 }
 
 roll(){  
