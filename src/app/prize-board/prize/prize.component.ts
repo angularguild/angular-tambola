@@ -19,6 +19,7 @@ export class PrizeComponent {
       this.prize.isClaimed = !this.prize.isClaimed;
     }
     this.claimed.emit(this.prize);
+    sessionStorage.setItem(this.prize.label.toString(), JSON.stringify(this.prize.isClaimed))
   }
 
   get btnClass() {
